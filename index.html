@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>samos.uz - Play Games Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons/iconfont/tabler-icons.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --text: #2d3436;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --search-bg: #f1f2f6;
+            --blur-bg: rgba(255, 255, 255, 0.8);
+            --section-title-color: #2d3436;
+        }
+
+        .dark-mode {
+            --primary: #a29bfe;
+            --secondary: #6c5ce7;
+            --accent: #fd79a8;
+            --text: #f8f9fa;
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --header-bg: rgba(26, 26, 46, 0.95);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --search-bg: #2d3436;
+            --blur-bg: rgba(26, 26, 46, 0.8);
+            --section-title-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary);
+            background-color: var(--secondary);
+            opacity: 0.8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+            margin-right: 15px;
+        }
+
+        .search-container input {
+            padding: 10px 15px 10px 40px;
+            border-radius: 20px;
+            border: none;
+            background-color: var(--search-bg);
+            color: var(--text);
+            width: 200px;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--search-bg);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .user-icon {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--search-bg);
+        }
+
+        .user-icon:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        /* Hero Carousel */
+        .carousel {
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            height: 400px;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .carousel-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-content {
+            background: linear-gradient(to top, var(--blur-bg), transparent);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            width: 100%;
+            color: var(--text);
+        }
+
+        .carousel-content h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .carousel-content p {
+            margin-bottom: 15px;
+            max-width: 600px;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+        }
+
+        .carousel-control {
+            background-color: var(--blur-bg);
+            border: none;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-control:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Games Grid */
+        .section-title {
+            margin: 40px 0 20px;
+            position: relative;
+            padding-bottom: 10px;
+            font-size: 1.8rem;
+            color: var(--section-title-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .game-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .game-card:hover .game-image img {
+            transform: scale(1.1);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background-color: var(--accent);
+        }
+
+        .game-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .game-description {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .game-category {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 40px 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            text-decoration: none;
+            color: var(--text);
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--shadow);
+            opacity: 0.7;
+        }
+
+        /* Page Content */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Admin Panel Button */
+        .admin-panel-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: all 0.3s;
+        }
+
+        .admin-panel-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav ul li {
+                margin: 5px 10px;
+            }
+
+            .header-actions {
+                margin-top: 15px;
+            }
+
+            .carousel {
+                height: 300px;
+            }
+
+            .search-container input {
+                width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel {
+                height: 250px;
+            }
+
+            .carousel-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .search-container {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .search-container input {
+                width: 100%;
+            }
+            
+            .header-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo" data-page="home">
+                    <i class="fas fa-gamepad"></i>
+                    <span>samos.uz</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="all-games">All Games</a></li>
+                        <li><a href="#" data-page="categories">Categories</a></li>
+                        <li><a href="#" data-page="top-games">Top Games</a></li>
+                        <li><a href="#" data-page="new-games">New Games</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search games..." id="searchInput">
+                    </div>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Home Page -->
+        <div id="home-page" class="page-content active">
+            <!-- Hero Carousel -->
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');">
+                        <div class="carousel-content">
+                            <h2>Epic Adventure Games</h2>
+                            <p>Explore amazing worlds and embark on unforgettable journeys with our adventure game collection.</p>
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');">
+                        <div class="carousel-content">
+                            <h2>Action Packed Games</h2>
+                            <p>Get your adrenaline pumping with our action game selection. Fight, race, and conquer!</p>
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80');">
+                        <div class="carousel-content">
+                            <h2>Puzzle Masters</h2>
+                            <p>Challenge your brain with our puzzle games. Solve mysteries and unlock new levels.</p>
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-control prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-control next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Featured Games -->
+            <h2 class="section-title">Featured Games</h2>
+            <div class="games-grid" id="featured-games">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+
+            <!-- New Games -->
+            <h2 class="section-title">New Releases</h2>
+            <div class="games-grid" id="new-games">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- All Games Page -->
+        <div id="all-games-page" class="page-content">
+            <h2 class="section-title">All Games</h2>
+            <div class="games-grid" id="all-games">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Categories Page -->
+        <div id="categories-page" class="page-content">
+            <h2 class="section-title">Game Categories</h2>
+            <div class="games-grid" id="categories">
+                <!-- Category cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Top Games Page -->
+        <div id="top-games-page" class="page-content">
+            <h2 class="section-title">Top Rated Games</h2>
+            <div class="games-grid" id="top-games">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- New Games Page -->
+        <div id="new-games-page" class="page-content">
+            <h2 class="section-title">New Games</h2>
+            <div class="games-grid" id="new-games-only">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About samos.uz</h3>
+                    <p>Your ultimate destination for online games. Play, compete, and have fun with our curated collection of games.</p>
+                    <p>We offer the best gaming experience with no downloads required.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="all-games">All Games</a></li>
+                        <li><a href="#" data-page="categories">Categories</a></li>
+                        <li><a href="#" data-page="top-games">Top Games</a></li>
+                        <li><a href="#" data-page="new-games">New Games</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Help & Support</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <p>Follow us on social media for updates, new game releases, and more.</p>
+                    <div style="font-size: 1.5rem; margin-top: 15px;">
+                        <i class="fab fa-facebook" style="margin-right: 15px; cursor: pointer;"></i>
+                        <i class="fab fa-twitter" style="margin-right: 15px; cursor: pointer;"></i>
+                        <i class="fab fa-instagram" style="margin-right: 15px; cursor: pointer;"></i>
+                        <i class="fab fa-youtube" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 samos.uz - All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Panel Button -->
+    <div class="admin-panel-btn">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <script>
+        // Game data
+        const games = [
+            {
+                id: 1,
+                title: "Chess Master",
+                description: "Classic strategy game for all skill levels. Challenge the computer or play with friends.",
+                category: "Strategy",
+                players: "1-2",
+                image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+                link: "chess.html",
+                isFeatured: true,
+                isNew: false,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                title: "Space Adventure",
+                description: "Explore the universe in this exciting space exploration game. Discover new planets and civilizations.",
+                category: "Adventure",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+                link: "space.html",
+                isFeatured: true,
+                isNew: true,
+                rating: 4.5
+            },
+            {
+                id: 3,
+                title: "Car Racing",
+                description: "High-speed racing game with realistic physics. Compete in tournaments to win prizes.",
+                category: "Racing",
+                players: "1-8",
+                image: "https://images.unsplash.com/photo-1535732820275-9ffd998cac22?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "racing.html",
+                isFeatured: false,
+                isNew: true,
+                rating: 4.3
+            },
+            {
+                id: 4,
+                title: "Word Puzzle",
+                description: "Test your vocabulary with this challenging word game. Find all hidden words to advance.",
+                category: "Puzzle",
+                players: "1-2",
+                image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "word.html",
+                isFeatured: true,
+                isNew: false,
+                rating: 4.0
+            },
+            {
+                id: 5,
+                title: "Zombie Shooter",
+                description: "Survive the zombie apocalypse in this action-packed shooter game. Collect weapons and stay alive.",
+                category: "Action",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "zombie.html",
+                isFeatured: false,
+                isNew: true,
+                rating: 4.7
+            },
+            {
+                id: 6,
+                title: "Soccer Championship",
+                description: "Realistic soccer simulation with professional teams and stadiums. Win the world cup!",
+                category: "Sports",
+                players: "1-4",
+                image: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "soccer.html",
+                isFeatured: true,
+                isNew: false,
+                rating: 4.6
+            },
+            {
+                id: 7,
+                title: "Jewel Quest",
+                description: "Match jewels to solve puzzles and unlock new levels. Hundreds of challenging stages.",
+                category: "Puzzle",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
+                link: "jewel.html",
+                isFeatured: false,
+                isNew: false,
+                rating: 4.2
+            },
+            {
+                id: 8,
+                title: "Farm Simulator",
+                description: "Build your own farm, grow crops, and raise animals. Expand your farming empire.",
+                category: "Simulation",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "farm.html",
+                isFeatured: true,
+                isNew: false,
+                rating: 4.4
+            },
+            {
+                id: 9,
+                title: "Bubble Shooter",
+                description: "Classic bubble shooting game. Match colors to pop bubbles and clear the board.",
+                category: "Arcade",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1533230408708-8f9f91d1234a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80",
+                link: "bubble.html",
+                isFeatured: false,
+                isNew: true,
+                rating: 3.9
+            },
+            {
+                id: 10,
+                title: "Pirate Adventure",
+                description: "Sail the seven seas, search for treasure, and battle other pirates in this exciting adventure.",
+                category: "Adventure",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1544531585-9847b68c8fbd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                link: "pirate.html",
+                isFeatured: false,
+                isNew: false,
+                rating: 4.1
+            },
+            {
+                id: 11,
+                title: "Math Challenge",
+                description: "Improve your math skills with this educational game. Fun for both kids and adults.",
+                category: "Educational",
+                players: "1-2",
+                image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "math.html",
+                isFeatured: true,
+                isNew: true,
+                rating: 4.3
+            },
+            {
+                id: 12,
+                title: "Basketball Pro",
+                description: "Realistic basketball game with amazing graphics. Dunk, shoot, and become a champion.",
+                category: "Sports",
+                players: "1-2",
+                image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1494&q=80",
+                link: "basketball.html",
+                isFeatured: false,
+                isNew: false,
+                rating: 4.5
+            },
+            {
+                id: 13,
+                title: "Robot Battle",
+                description: "Build and customize your robot to battle against others in this futuristic arena game.",
+                category: "Action",
+                players: "1-4",
+                image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "robot.html",
+                isFeatured: false,
+                isNew: true,
+                rating: 4.7
+            },
+            {
+                id: 14,
+                title: "Mystery Mansion",
+                description: "Solve puzzles and find clues to escape from the mysterious mansion in this thrilling adventure.",
+                category: "Adventure",
+                players: "1",
+                image: "https://images.unsplash.com/photo-1531315630201-bb15abeb1653?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "mystery.html",
+                isFeatured: true,
+                isNew: false,
+                rating: 4.6
+            },
+            {
+                id: 15,
+                title: "Skateboard Paradise",
+                description: "Perform amazing tricks and stunts in this realistic skateboarding simulation game.",
+                category: "Sports",
+                players: "1-2",
+                image: "https://images.unsplash.com/photo-1572776685600-aca8c6430957?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                link: "skateboard.html",
+                isFeatured: false,
+                isNew: true,
+                rating: 4.4
+            }
+        ];
+
+        // Get unique categories
+        const categories = [...new Set(games.map(game => game.category))];
+
+        // DOM elements
+        const themeToggle = document.getElementById('themeToggle');
+        const searchInput = document.getElementById('searchInput');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevButton = document.querySelector('.carousel-control.prev');
+        const nextButton = document.querySelector('.carousel-control.next');
+        const pageLinks = document.querySelectorAll('[data-page]');
+        const pageContents = document.querySelectorAll('.page-content');
+        const adminPanelBtn = document.querySelector('.admin-panel-btn');
+
+        // Generate game cards
+        function generateGameCards(gamesArray, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            gamesArray.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card';
+                gameCard.innerHTML = `
+                    <div class="game-image">
+                        <img src="${game.image}" alt="${game.title}">
+                        <div class="play-overlay">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">${game.title}</h3>
+                        <p class="game-description">${game.description}</p>
+                        <div class="game-meta">
+                            <span class="game-category">${game.category}</span>
+                            <span>${game.players} Players</span>
+                        </div>
+                    </div>
+                `;
+                gameCard.addEventListener('click', () => {
+                    window.location.href = game.link;
+                });
+                container.appendChild(gameCard);
+            });
+        }
+
+        // Generate category cards
+        function generateCategoryCards(categoriesArray, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            categoriesArray.forEach(category => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'game-card';
+                const categoryGames = games.filter(game => game.category === category);
+                const randomGame = categoryGames[Math.floor(Math.random() * categoryGames.length)];
+                
+                categoryCard.innerHTML = `
+                    <div class="game-image">
+                        <img src="${randomGame.image}" alt="${category}">
+                        <div class="play-overlay">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">${category} Games</h3>
+                        <p class="game-description">Explore our collection of ${category.toLowerCase()} games</p>
+                        <div class="game-meta">
+                            <span class="game-category">${category}</span>
+                            <span>${categoryGames.length} Games</span>
+                        </div>
+                    </div>
+                `;
+                categoryCard.addEventListener('click', () => {
+                    // Filter games by this category and show them
+                    const filteredGames = games.filter(game => game.category === category);
+                    generateGameCards(filteredGames, 'categories');
+                    document.querySelector('.section-title').textContent = `${category} Games`;
+                });
+                container.appendChild(categoryCard);
+            });
+        }
+
+        // Initialize pages with content
+        function initializePages() {
+            // Home page
+            const featuredGames = games.filter(game => game.isFeatured);
+            const newGames = games.filter(game => game.isNew);
+            generateGameCards(featuredGames, 'featured-games');
+            generateGameCards(newGames, 'new-games');
+            
+            // All games page
+            generateGameCards(games, 'all-games');
+            
+            // Categories page
+            generateCategoryCards(categories, 'categories');
+            
+            // Top games page (sort by rating)
+            const topGames = [...games].sort((a, b) => b.rating - a.rating);
+            generateGameCards(topGames, 'top-games');
+            
+            // New games page
+            generateGameCards(newGames, 'new-games-only');
+        }
+
+        // Switch between pages
+        function switchPage(pageId) {
+            // Update navigation
+            pageLinks.forEach(link => {
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Show selected page
+            pageContents.forEach(content => {
+                if (content.id === `${pageId}-page`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize the site
+        initializePages();
+
+        // Set up event listeners for navigation
+        pageLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                switchPage(pageId);
+            });
+        });
+
+        // Dark mode toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Check for saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm.length < 2) {
+                initializePages();
+                return;
+            }
+            
+            const filteredGames = games.filter(game => 
+                game.title.toLowerCase().includes(searchTerm) || 
+                game.description.toLowerCase().includes(searchTerm) ||
+                game.category.toLowerCase().includes(searchTerm)
+            );
+            
+            // Update all game grids with search results
+            generateGameCards(filteredGames, 'featured-games');
+            generateGameCards(filteredGames, 'all-games');
+            generateGameCards(filteredGames, 'top-games');
+            generateGameCards(filteredGames, 'new-games-only');
+            
+            // For categories page, filter categories that have matching games
+            const matchingCategories = [...new Set(filteredGames.map(game => game.category))];
+            generateCategoryCards(matchingCategories, 'categories');
+        });
+
+        // Carousel functionality
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            carouselItems.forEach(item => item.classList.remove('active'));
+            
+            if (index >= carouselItems.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = carouselItems.length - 1;
+            } else {
+                currentSlide = index;
+            }
+            
+            carouselItems[currentSlide].classList.add('active');
+        }
+
+        prevButton.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        nextButton.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        // Auto advance carousel
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        // Admin panel button
+        adminPanelBtn.addEventListener('click', () => {
+            alert('Admin panel will be implemented later. This would require user authentication.');
+        });
+
+        // User icon click
+        document.querySelector('.user-icon').addEventListener('click', () => {
+            alert('User registration/login will be implemented later.');
+        });
+    </script>
+</body>
+</html>
