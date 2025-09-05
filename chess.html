@@ -21,7 +21,6 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            overflow-y: auto; /* Ensure scrolling if content overflows */
         }
 
         .container {
@@ -75,12 +74,20 @@
             width: 100%;
         }
 
+        @media (max-width: 900px) {
+            .game-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
         .chess-board-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            width: 100%;
         }
 
         .board-controls {
@@ -88,17 +95,19 @@
             gap: 15px;
             width: 100%;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .chess-board {
             width: 100%;
-            max-width: 600px;
+            max-width: 90vw;
+            max-height: 90vw;
             aspect-ratio: 1/1;
             display: grid;
             grid-template-columns: repeat(8, 1fr);
             grid-template-rows: repeat(8, 1fr);
             border-radius: 10px;
-            overflow: visible; /* Changed to visible to prevent cutting off content */
+            overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             border: 4px solid #6c5ce7;
         }
@@ -185,6 +194,7 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            width: 100%;
         }
 
         .status {
@@ -319,6 +329,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             overflow-y: auto;
             max-height: 300px;
+            width: 100%;
         }
 
         .move-history h3 {
@@ -358,6 +369,12 @@
             margin-top: 30px;
         }
 
+        @media (max-width: 900px) {
+            .bottom-section {
+                flex-direction: column;
+            }
+        }
+
         .instructions {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -365,6 +382,7 @@
             padding: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             flex: 1;
+            width: 100%;
         }
 
         .instructions h2 {
@@ -401,6 +419,7 @@
             justify-content: space-between;
             margin-top: 15px;
             width: 100%;
+            max-width: 600px;
         }
 
         .timer div {
@@ -453,175 +472,87 @@
             margin-bottom: 25px;
         }
 
-        /* Existing media query for tablet */
-        @media (max-width: 900px) {
-            .game-container {
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .header {
                 flex-direction: column;
-                align-items: center;
-                gap: 20px; /* Reduce gap for better fit */
+                gap: 10px;
+                text-align: center;
             }
-
-            .bottom-section {
-                flex-direction: column;
-                gap: 20px; /* Reduce gap */
+            
+            .game-title {
+                font-size: 2rem;
             }
-
+            
+            .chess-board {
+                max-width: 95vw;
+                max-height: 95vw;
+            }
+            
+            .square {
+                font-size: 1.8rem;
+            }
+            
             .game-info {
                 flex: 0 0 auto;
-                width: 100%;
             }
-
-            .chess-board {
-                max-width: 100%; /* Ensure it fits */
+            
+            .bottom-section {
+                flex-direction: column;
+            }
+            
+            .move-history {
+                max-height: 200px;
+            }
+            
+            .timer div {
+                font-size: 1rem;
+                padding: 8px 12px;
             }
         }
 
-        /* New media query for mobile devices */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px; /* Reduce padding */
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 1.8rem;
             }
-
-            .container {
-                padding: 0 10px;
-            }
-
-            .header {
-                padding: 10px 15px;
-                flex-direction: column; /* Stack header elements if needed */
-                gap: 10px;
-            }
-
-            .logo {
+            
+            .square {
                 font-size: 1.5rem;
             }
-
-            .game-title {
-                font-size: 2rem;
-                margin: 10px 0 20px;
-            }
-
-            .game-container {
-                gap: 15px;
-            }
-
-            .chess-board-container {
-                gap: 15px;
-            }
-
-            .chess-board {
-                max-width: calc(100vw - 20px); /* Fit to viewport minus padding */
-                border-width: 2px; /* Thinner border */
-            }
-
-            .square {
-                font-size: 1.8rem; /* Smaller pieces */
-            }
-
+            
             .coordinates {
-                font-size: 0.6rem; /* Smaller coordinates */
+                font-size: 0.5rem;
             }
-
-            .piece {
-                font-size: inherit; /* Ensure pieces scale */
-            }
-
-            .board-controls {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-
+            
             .btn {
                 padding: 10px 15px;
                 font-size: 0.9rem;
             }
-
-            .game-info {
-                padding: 15px;
-                gap: 15px;
-            }
-
+            
             .status h2 {
                 font-size: 1rem;
             }
-
+            
             .status p {
                 font-size: 1.2rem;
             }
-
-            .captured-pieces h3 {
-                font-size: 1rem;
-            }
-
+            
             .captured-piece {
                 font-size: 1.5rem;
             }
-
-            .game-settings h3 {
-                font-size: 1rem;
+            
+            .moves {
+                grid-template-columns: 1fr;
             }
-
-            .setting-group select {
-                padding: 6px;
-            }
-
-            .move-history {
-                padding: 15px;
-                max-height: 200px; /* Shorter history to fit screen */
-            }
-
-            .move-history h3 {
-                font-size: 1rem;
-            }
-
-            .move {
-                font-size: 0.8rem;
-                padding: 6px 10px;
-            }
-
-            .bottom-section {
-                gap: 15px;
-                margin-top: 20px;
-            }
-
+            
             .instructions h2 {
-                font-size: 1.2rem;
-            }
-
-            .instructions li {
-                font-size: 0.9rem;
-            }
-
-            .footer {
-                margin-top: 20px;
-                padding: 10px;
-                font-size: 0.8rem;
-            }
-
-            .timer {
-                margin-top: 10px;
-            }
-
-            .timer div {
-                padding: 8px 12px;
-                font-size: 1rem;
-            }
-
-            .game-over-content {
-                padding: 20px;
-            }
-
-            .game-over h2 {
-                font-size: 1.5rem;
-            }
-
-            .game-over p {
-                font-size: 1rem;
+                font-size: 1.3rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- HTML qismi o'zgarmagan, faqat CSS qismiga o'zgarishlar kiritildi -->
     <div class="container">
         <div class="header">
             <a href="index.html" class="logo">
@@ -736,6 +667,7 @@
     </div>
 
     <script>
+        // JavaScript kodlari o'zgarmagan
         document.addEventListener('DOMContentLoaded', function() {
             const chessBoard = document.getElementById('chess-board');
             const currentPlayerEl = document.getElementById('current-player');
