@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Racing - samos.uz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #6c5ce7;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .score-container {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .score-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .score-title {
+            font-size: 0.9rem;
+            color: #a29bfe;
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: #2d3436;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .road {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #2d3436, #1e272e);
+            overflow: hidden;
+        }
+        
+        .road-line {
+            position: absolute;
+            left: 50%;
+            width: 10px;
+            height: 80px;
+            background: #fbc531;
+            margin-left: -5px;
+            border-radius: 5px;
+        }
+        
+        .player-car {
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(to bottom, #e84118, #c23616);
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px 10px 5px 5px;
+            box-shadow: 0 0 20px rgba(232, 65, 24, 0.6);
+        }
+        
+        .car-top {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #e84118;
+            top: 0;
+            left: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .car-window {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #70a1ff;
+            top: 5px;
+            left: 15px;
+            border-radius: 5px;
+        }
+        
+        .car-wheel {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            background: #2f3640;
+            border-radius: 3px;
+            bottom: 5px;
+        }
+        
+        .car-wheel-left {
+            left: 8px;
+        }
+        
+        .car-wheel-right {
+            right: 8px;
+        }
+        
+        .obstacle {
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            border-radius: 5px 5px 10px 10px;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .control-btn {
+            background: rgba(107, 92, 231, 0.8);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(107, 92, 231, 0.4);
+        }
+        
+        .control-btn:hover {
+            background: rgba(107, 92, 231, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(107, 92, 231, 0.6);
+        }
+        
+        .control-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(107, 92, 231, 0.4);
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+        
+        .game-over h2 {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+        }
+        
+        .final-score {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #fbc531;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            width: 100%;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instructions h3 {
+            color: #6c5ce7;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .instructions-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .instruction {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instruction i {
+            color: #fbc531;
+            font-size: 1.2rem;
+        }
+        
+        .instruction-text {
+            font-size: 0.9rem;
+            color: #dfe6e9;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .score-container {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .game-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>samos.uz</span>
+            </div>
+            <div class="score-container">
+                <div class="score-box">
+                    <div class="score-title">SCORE</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="score-title">TOP SCORE</div>
+                    <div class="score-value" id="top-score">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-container">
+            <div class="road" id="road">
+                <!-- Road lines will be generated by JavaScript -->
+            </div>
+            
+            <div class="player-car" id="player-car">
+                <div class="car-top">
+                    <div class="car-window"></div>
+                </div>
+                <div class="car-wheel car-wheel-left"></div>
+                <div class="car-wheel car-wheel-right"></div>
+            </div>
+            
+            <div class="game-over" id="game-over">
+                <h2>GAME OVER</h2>
+                <div class="final-score">Your Score: <span id="final-score">0</span></div>
+                <button class="control-btn" onclick="restartGame()">
+                    <i class="fas fa-redo"></i> PLAY AGAIN
+                </button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="moveLeft()">
+                <i class="fas fa-arrow-left"></i> LEFT
+            </button>
+            <button class="control-btn" onclick="startGame()" id="start-btn">
+                <i class="fas fa-play"></i> START
+            </button>
+            <button class="control-btn" onclick="moveRight()">
+                RIGHT <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <h3>HOW TO PLAY</h3>
+            <div class="instructions-content">
+                <div class="instruction">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="instruction-text">Press LEFT or click LEFT button</span>
+                </div>
+                <div class="instruction">
+                    <i class="fas fa-arrow-right"></i>
+                    <span class="instruction-text">Press RIGHT or click RIGHT button</span>
+                </div>
+                <div class="instruction">
+                    <i class="fas fa-bolt"></i>
+                    <span class="instruction-text">Avoid blue cars to score points</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        let gameActive = false;
+        let score = 0;
+        let topScore = localStorage.getItem('topScore') || 0;
+        let playerX = 50; // Player position in percentage
+        let obstacles = [];
+        let roadLines = [];
+        let animationId;
+        
+        // DOM elements
+        const roadElement = document.getElementById('road');
+        const playerCar = document.getElementById('player-car');
+        const scoreElement = document.getElementById('score');
+        const topScoreElement = document.getElementById('top-score');
+        const gameOverElement = document.getElementById('game-over');
+        const finalScoreElement = document.getElementById('final-score');
+        const startButton = document.getElementById('start-btn');
+        
+        // Initialize top score
+        topScoreElement.textContent = topScore;
+        
+        // Create road lines
+        function createRoadLines() {
+            for (let i = 0; i < 10; i++) {
+                const line = document.createElement('div');
+                line.className = 'road-line';
+                line.style.top = `${i * 100 - 50}px`;
+                roadElement.appendChild(line);
+                roadLines.push(line);
+            }
+        }
+        
+        // Move road lines
+        function moveRoadLines() {
+            roadLines.forEach(line => {
+                let top = parseInt(line.style.top || 0);
+                top += 10;
+                
+                if (top > 500) {
+                    top = -50;
+                }
+                
+                line.style.top = `${top}px`;
+            });
+        }
+        
+        // Create obstacle
+        function createObstacle() {
+            if (!gameActive) return;
+            
+            const obstacle = document.createElement('div');
+            obstacle.className = 'obstacle';
+            
+            // Random horizontal position (20% to 80%)
+            const xPos = 20 + Math.random() * 60;
+            obstacle.style.left = `${xPos}%`;
+            obstacle.style.top = '-100px';
+            
+            roadElement.appendChild(obstacle);
+            obstacles.push({
+                element: obstacle,
+                x: xPos,
+                y: -100,
+                speed: 3 + Math.random() * 3 + Math.floor(score / 10) * 0.5
+            });
+            
+            // Schedule next obstacle
+            const timeout = 1500 - Math.min(1000, Math.floor(score / 5) * 50);
+            setTimeout(createObstacle, timeout);
+        }
+        
+        // Move obstacles
+        function moveObstacles() {
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                const obstacle = obstacles[i];
+                obstacle.y += obstacle.speed;
+                obstacle.element.style.top = `${obstacle.y}px`;
+                
+                // Check collision
+                if (obstacle.y > 350 && obstacle.y < 450) {
+                    if (Math.abs(obstacle.x - playerX) < 10) {
+                        gameOver();
+                        return;
+                    }
+                }
+                
+                // Remove obstacle when it goes off screen
+                if (obstacle.y > 600) {
+                    roadElement.removeChild(obstacle.element);
+                    obstacles.splice(i, 1);
+                    updateScore();
+                }
+            }
+        }
+        
+        // Update score
+        function updateScore() {
+            score++;
+            scoreElement.textContent = score;
+            
+            // Update top score if needed
+            if (score > topScore) {
+                topScore = score;
+                topScoreElement.textContent = topScore;
+                localStorage.setItem('topScore', topScore);
+            }
+        }
+        
+        // Move player car
+        function moveCar() {
+            playerCar.style.left = `${playerX}%`;
+        }
+        
+        // Move left
+        function moveLeft() {
+            if (!gameActive) return;
+            playerX = Math.max(20, playerX - 10);
+            moveCar();
+        }
+        
+        // Move right
+        function moveRight() {
+            if (!gameActive) return;
+            playerX = Math.min(80, playerX + 10);
+            moveCar();
+        }
+        
+        // Game loop
+        function gameLoop() {
+            if (!gameActive) return;
+            
+            moveRoadLines();
+            moveObstacles();
+            
+            animationId = requestAnimationFrame(gameLoop);
+        }
+        
+        // Start game
+        function startGame() {
+            if (gameActive) return;
+            
+            // Reset game state
+            gameActive = true;
+            score = 0;
+            scoreElement.textContent = score;
+            playerX = 50;
+            moveCar();
+            
+            // Clear obstacles
+            obstacles.forEach(obstacle => roadElement.removeChild(obstacle.element));
+            obstacles = [];
+            
+            // Hide game over screen
+            gameOverElement.style.display = 'none';
+            
+            // Change button to pause
+            startButton.innerHTML = '<i class="fas fa-pause"></i> PAUSE';
+            startButton.onclick = pauseGame;
+            
+            // Start game loop
+            animationId = requestAnimationFrame(gameLoop);
+            
+            // Start generating obstacles
+            setTimeout(createObstacle, 1000);
+        }
+        
+        // Pause game
+        function pauseGame() {
+            if (!gameActive) return;
+            
+            gameActive = false;
+            cancelAnimationFrame(animationId);
+            
+            // Change button to resume
+            startButton.innerHTML = '<i class="fas fa-play"></i> RESUME';
+            startButton.onclick = resumeGame;
+        }
+        
+        // Resume game
+        function resumeGame() {
+            if (gameActive) return;
+            
+            gameActive = true;
+            
+            // Change button to pause
+            startButton.innerHTML = '<i class="fas fa-pause"></i> PAUSE';
+            startButton.onclick = pauseGame;
+            
+            // Resume game loop
+            animationId = requestAnimationFrame(gameLoop);
+        }
+        
+        // Game over
+        function gameOver() {
+            gameActive = false;
+            cancelAnimationFrame(animationId);
+            
+            // Show game over screen
+            finalScoreElement.textContent = score;
+            gameOverElement.style.display = 'flex';
+            
+            // Reset button
+            startButton.innerHTML = '<i class="fas fa-play"></i> START';
+            startButton.onclick = startGame;
+        }
+        
+        // Restart game
+        function restartGame() {
+            gameOverElement.style.display = 'none';
+            startGame();
+        }
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                moveLeft();
+            } else if (e.key === 'ArrowRight') {
+                moveRight();
+            } else if (e.key === ' ' || e.key === 'Spacebar') {
+                if (gameActive) {
+                    pauseGame();
+                } else {
+                    resumeGame();
+                }
+            }
+        });
+        
+        // Initialize game
+        createRoadLines();
+        moveCar();
+    </script>
+</body>
+</html>
